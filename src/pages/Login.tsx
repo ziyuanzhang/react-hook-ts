@@ -1,6 +1,7 @@
 import React from "react";
+import { RouteComponentProps } from "@reach/router";
 
-const Login: React.FC = () => {
+const Login: React.FC<RouteComponentProps> = () => {
   return <div>Login</div>;
 };
 
