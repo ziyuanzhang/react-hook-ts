@@ -1,19 +1,16 @@
 import React from "react";
-import { Router, RouteComponentProps } from "@reach/router";
+import { Router } from "@reach/router";
 
 import Login from "./pages/Login";
-import My from "./pages/My";
-import Index from "./pages/Index";
-
-let Dash = (props: RouteComponentProps) => <div>Dash</div>;
+import NotFound from "./pages/common/NotFound";
+import RequireLogin from "./pages/RequireLogin/RequireLogin";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Index path="/"></Index>
+      <RequireLogin path="/*"></RequireLogin>
       <Login path="/login"></Login>
-      <My path="/my"></My>
-      <Dash path="/dashboard" />
+      <NotFound default />
     </Router>
   );
 };

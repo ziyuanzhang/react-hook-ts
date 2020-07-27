@@ -2,7 +2,7 @@ import React from "react";
 import { RouteComponentProps } from "@reach/router";
 
 const Index: React.FC<RouteComponentProps> = () => {
-  return <div>index</div>;
+  return <div>Index</div>;
 };
 
 export default Index;
