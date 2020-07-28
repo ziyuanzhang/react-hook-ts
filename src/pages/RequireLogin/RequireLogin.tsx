@@ -6,6 +6,7 @@ import My from "./My";
 import NotFound from "../common/NotFound";
 
 const RequireLogin: React.FC<RouteComponentProps> = () => {
+  //let isLogin = localStorage.
   return (
     <Router>
       <Index path="/"></Index>
