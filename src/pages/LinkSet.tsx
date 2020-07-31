@@ -1,22 +1,32 @@
 import React, { useRef } from "react";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, navigate } from "@reach/router";
 import Header from "../components/Header";
-import styles from "../css/linkSet.module.less";
-import axja from "../util/ajax";
+import styles from "./linkSet.module.less";
+import ajax from "../util/ajax";
+import Toast from "../components/global/Toast";
 
 const LinkSet: React.FC<RouteComponentProps> = () => {
   const obj = {
     leftUrl: "/login",
     centerTxt: "链接设置",
   };
+  let baseUrl = localStorage.baseUrl ? localStorage.baseUrl : "";
   const linkRef = useRef<HTMLInputElement>(null);
-  const testNetworkSpeed = () => {
-    axja.get(
-      "https://csdnimg.cn/cdn/content-toolbar/csdn-logo.png?v=20200416.1"
-    );
+  const testNetworkSpeed = async () => {
+    if (linkRef.current && linkRef.current.value) {
+      await ajax.testGet(linkRef.current.value);
+      Toast("链接畅通！");
+    }
   };
-
-  const okFun = () => {};
+  const okFun = async () => {
+    if (linkRef.current && linkRef.current.value) {
+      await ajax.testGet(linkRef.current.value);
+      localStorage.baseUrl = linkRef.current.value;
+      Toast("保存成功！").then((res) => {
+        navigate("/login");
+      });
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -24,6 +34,7 @@ const LinkSet: React.FC<RouteComponentProps> = () => {
       <div className={styles.main}>
         <div className={styles.title}>链接设置</div>
         <input
+          defaultValue={baseUrl}
           type="text"
           className={styles.input}
           placeholder="链接地址"

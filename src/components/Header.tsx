@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@reach/router";
-import styles from "../css/header.module.less";
+import styles from "./header.module.less";
 interface headerProps {
   leftUrl?: string;
   centerTxt: string;

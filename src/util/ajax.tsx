@@ -1,3 +1,5 @@
+import Toast from "../components/global/Toast";
+
 let isValidCodon = (codon: string, obj: object): codon is keyof typeof obj => {
   return codon in obj;
 };
@@ -8,10 +10,11 @@ let obj2String = (obj: object, arr: Array<any> = [], idx: number = 0) => {
       arr[idx++] = [key, obj[key]];
     }
   }
-  // return new URLSearchParams(arr).toString();
+  return new URLSearchParams(arr).toString();
 };
 
-let commonFetcdh = (url: string, options: object, method = "GET") => {
+let commonFetcdh = (url: string, options: object, method: string = "GET") => {
+  console.log("ajax-url:", url);
   const searchStr = obj2String(options);
   let initObj = {};
   if (method === "GET") {
@@ -19,7 +22,7 @@ let commonFetcdh = (url: string, options: object, method = "GET") => {
     url += "?" + searchStr;
     initObj = {
       method: method,
-      credentials: "include",
+      //  credentials: "include",
     };
   } else {
     initObj = {
@@ -32,28 +35,45 @@ let commonFetcdh = (url: string, options: object, method = "GET") => {
       body: searchStr,
     };
   }
-  fetch(url, initObj)
+  return fetch(url, initObj)
     .then((res) => {
-      return res.json();
+      console.log("ajax-first:", res);
+      if (res.status.toString().startsWith("4")) {
+        Toast(`${res.status}:请求错误`);
+      } else if (res.status.toString().startsWith("5")) {
+        Toast(`${res.status}:服务器错误`);
+      } else {
+        if (res.url.indexOf("pos/posUnion/ping") > -1) {
+          return { code: "success" };
+        } else {
+          return res.json();
+        }
+      }
     })
     .then((res) => {
+      console.log("ajax-second:", res);
       return res;
+    })
+    .catch((err) => {
+      Toast(JSON.stringify(err));
+      console.log("ajax-err:", err);
     });
 };
 
 let axja = {
-  get: (url: string, options?: object) => {
-    if (!options) {
-      options = {};
-    }
-    return commonFetcdh(url, options, "GET");
+  testGet(url: string) {
+    return commonFetcdh(`${url}/pos/posUnion/ping`, {});
   },
-  post: (url: string, options?: object) => {
-    if (!options) {
-      options = {};
-    }
-    return commonFetcdh(url, options, "POST");
+  get: (options: object) => {
+    let url = localStorage.baseUrl + "/pos/router";
+    return commonFetcdh(url, options);
   },
+  // post: (url: string, options?: object) => {
+  //   if (!options) {
+  //     options = {};
+  //   }
+  //   return commonFetcdh(url, options, "POST");
+  // },
 };
 
 export default axja;

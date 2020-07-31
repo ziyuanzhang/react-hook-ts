@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import { Link, RouteComponentProps } from "@reach/router";
 import Header from "../components/Header";
-import styles from "../css/login.module.less";
+import styles from "./login.module.less";
+import ajax from "../util/ajax";
+//import Toast from "../components/global/Toast";
 
 const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   console.log("Login:", props);
@@ -11,13 +13,20 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const groupCodeRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const passWordRef = useRef<HTMLInputElement>(null);
-  function handlePost() {
+  let handlePost = async () => {
     if (groupCodeRef.current && userNameRef.current && passWordRef.current) {
-      console.log("sss:", groupCodeRef.current.value);
-      console.log("sss:", userNameRef.current.value);
-      console.log("sss:", passWordRef.current.value);
+      let data = {
+        method: "loginApp",
+        hotelCode: groupCodeRef.current.value.trim(),
+        userName: userNameRef.current.value.trim(),
+        password: passWordRef.current.value.trim(),
+        magicNo: groupCodeRef.current.value.trim(),
+      };
+      let res = await ajax.get(data);
+      if (res) {
+      }
     }
-  }
+  };
   return (
     <div className={styles.container}>
       <Header {...obj}></Header>

@@ -3,7 +3,7 @@ import { Router, RouteComponentProps } from "@reach/router";
 
 import Index from "./Index";
 import My from "./My";
-import NotFound from "../common/NotFound";
+import Page404 from "../common/Page404";
 
 const RequireLogin: React.FC<RouteComponentProps> = () => {
   //let isLogin = localStorage.
@@ -12,7 +12,7 @@ const RequireLogin: React.FC<RouteComponentProps> = () => {
       <Index path="/"></Index>
       <Index path="index"></Index>
       <My path="my"></My>
-      <NotFound default />
+      <Page404 default />
     </Router>
   );
 };
