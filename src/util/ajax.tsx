@@ -22,22 +22,23 @@ let commonFetcdh = (url: string, options: object, method: string = "GET") => {
     url += "?" + searchStr;
     initObj = {
       method: method,
-      //  credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
     };
   } else {
     initObj = {
       method: method,
       credentials: "include",
-      headers: new Headers({
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      }),
+      headers: {
+        "content-type": "application/json",
+      },
       body: searchStr,
     };
   }
   return fetch(url, initObj)
     .then((res) => {
-      console.log("ajax-first:", res);
+      // console.log("ajax-first:", res);
       if (res.status.toString().startsWith("4")) {
         Toast(`${res.status}:请求错误`);
       } else if (res.status.toString().startsWith("5")) {
@@ -46,13 +47,24 @@ let commonFetcdh = (url: string, options: object, method: string = "GET") => {
         if (res.url.indexOf("pos/posUnion/ping") > -1) {
           return { code: "success" };
         } else {
-          return res.json();
+          if (res.headers.get("content-type") === "application/json") {
+            return res.json();
+          } else {
+            return res.text();
+          }
         }
       }
     })
     .then((res) => {
       console.log("ajax-second:", res);
-      return res;
+      if (typeof res == "string") {
+        let start = res.indexOf("message>") + 8;
+        let end = res.indexOf("</message>");
+        let str = res.slice(start, end);
+        Toast(str);
+      } else {
+        return res;
+      }
     })
     .catch((err) => {
       Toast(JSON.stringify(err));
