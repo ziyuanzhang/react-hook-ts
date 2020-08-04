@@ -9,9 +9,9 @@ import RequireLogin from "./pages/RequireLogin/RequireLogin";
 const App: React.FC = () => {
   return (
     <Router>
-      <RequireLogin path="/*"></RequireLogin>
       <Login path="/login"></Login>
       <LinkSet path="/linkSet"></LinkSet>
+      <RequireLogin path="/*"></RequireLogin>
       <Page404 default />
     </Router>
   );

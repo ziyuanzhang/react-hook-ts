@@ -10,7 +10,7 @@ interface headerProps {
 }
 
 const Header: React.FC<headerProps> = (props) => {
-  console.log("prop:", props);
+  console.log("header-prop:", props);
   return (
     <div className={styles.container}>
       {props.leftUrl && (

@@ -2,6 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import ajax from "./util/ajax";
+import Toast from "./components/global/Toast";
+declare global {
+  interface Window {
+    $ajax: any;
+    $toast: any;
+  }
+}
+window.$ajax = ajax;
+window.$toast = Toast;
 
 ReactDOM.render(
   <React.StrictMode>

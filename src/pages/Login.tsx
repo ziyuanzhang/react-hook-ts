@@ -1,9 +1,8 @@
 import React, { useRef } from "react";
-import { Link, RouteComponentProps } from "@reach/router";
+import { Link, navigate, RouteComponentProps } from "@reach/router";
 import Header from "../components/Header";
 import styles from "./login.module.less";
-import ajax from "../util/ajax";
-//import Toast from "../components/global/Toast";
+import md5 from "js-md5";
 
 const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   console.log("Login:", props);
@@ -13,17 +12,30 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const groupCodeRef = useRef<HTMLInputElement>(null);
   const userNameRef = useRef<HTMLInputElement>(null);
   const passWordRef = useRef<HTMLInputElement>(null);
+
+  let groupDefaultVal: string = "";
+  let userNamDefaultVal: string = "";
+  const loginInfo = localStorage.loginInfo
+    ? JSON.parse(localStorage.loginInfo)
+    : null;
+  if (loginInfo) {
+    console.log("dd");
+    groupDefaultVal = loginInfo.hotelCode;
+    userNamDefaultVal = loginInfo.userCode;
+  }
   let handlePost = async () => {
     if (groupCodeRef.current && userNameRef.current && passWordRef.current) {
       let data = {
         method: "loginApp",
-        hotelCode: groupCodeRef.current.value.trim(),
-        userName: userNameRef.current.value.trim(),
-        password: passWordRef.current.value.trim(),
-        magicNo: groupCodeRef.current.value.trim(),
+        hotelCode: groupCodeRef.current.value.toUpperCase().trim(),
+        userName: userNameRef.current.value.toUpperCase().trim(),
+        password: md5(passWordRef.current.value.toUpperCase().trim()),
+        magicNo: "1234567",
       };
-      let res = await ajax.get(data);
+      let res = await window.$ajax.get(data);
       if (res) {
+        localStorage.loginInfo = JSON.stringify(res.data);
+        navigate("/index");
       }
     }
   };
@@ -39,12 +51,14 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
             type="text"
             className={styles.input}
             placeholder="集团代码"
+            defaultValue={groupDefaultVal}
             ref={groupCodeRef}
           />
           <input
             type="text"
             ref={userNameRef}
             className={styles.input}
+            defaultValue={userNamDefaultVal}
             placeholder="用户名"
           />
           <input

@@ -1,4 +1,4 @@
-import Toast from "../components/global/Toast";
+//import Toast from "../components/global/Toast";
 
 let isValidCodon = (codon: string, obj: object): codon is keyof typeof obj => {
   return codon in obj;
@@ -15,7 +15,17 @@ let obj2String = (obj: object, arr: Array<any> = [], idx: number = 0) => {
 
 let commonFetcdh = (url: string, options: object, method: string = "GET") => {
   console.log("ajax-url:", url);
-  const searchStr = obj2String(options);
+
+  let opt = {
+    ...{
+      appKey: "00000",
+      v: "3.0",
+      format: "json",
+    },
+    ...options,
+  };
+
+  const searchStr = obj2String(opt);
   let initObj = {};
   if (method === "GET") {
     // 如果是GET请求，拼接url
@@ -40,14 +50,16 @@ let commonFetcdh = (url: string, options: object, method: string = "GET") => {
     .then((res) => {
       // console.log("ajax-first:", res);
       if (res.status.toString().startsWith("4")) {
-        Toast(`${res.status}:请求错误`);
+        window.$toast(`${res.status}:请求错误`);
       } else if (res.status.toString().startsWith("5")) {
-        Toast(`${res.status}:服务器错误`);
+        window.$toast(`${res.status}:服务器错误`);
       } else {
         if (res.url.indexOf("pos/posUnion/ping") > -1) {
           return { code: "success" };
         } else {
-          if (res.headers.get("content-type") === "application/json") {
+          if (
+            res.headers.get("content-type") === "application/json;charset=UTF-8"
+          ) {
             return res.json();
           } else {
             return res.text();
@@ -61,13 +73,17 @@ let commonFetcdh = (url: string, options: object, method: string = "GET") => {
         let start = res.indexOf("message>") + 8;
         let end = res.indexOf("</message>");
         let str = res.slice(start, end);
-        Toast(str);
+        window.$toast(str);
       } else {
-        return res;
+        if (res.resultCode === 1 || res.resultCode === 202) {
+          window.$toast(res.resultMsg);
+        } else {
+          return res;
+        }
       }
     })
     .catch((err) => {
-      Toast(JSON.stringify(err));
+      window.$toast(JSON.stringify(err));
       console.log("ajax-err:", err);
     });
 };
