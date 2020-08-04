@@ -1,30 +1,30 @@
 import React from "react";
-import { Router, RouteComponentProps, navigate } from "@reach/router";
+import { Switch, Route, Redirect, RouteComponentProps } from "react-router-dom";
+import { withRouter } from "react-router";
 
 import Index from "./Index";
 import My from "./My";
 import Page404 from "../common/Page404";
 
-const RequireLogin: React.FC<RouteComponentProps> = () => {
-  let isLogin = localStorage.loginInfo ? true : false;
+const RequireLogin: React.FC<RouteComponentProps> = (props) => {
+  let isLogin: boolean = localStorage.loginInfo ? true : false;
   if (!isLogin) {
-    navigate("/login");
+    props.history.push("/login");
   }
 
   return (
-    <>
-      {isLogin ? (
-        <Router>
-          <Index path="/"></Index>
-          <Index path="index"></Index>
-          <My path="my"></My>
-          <Page404 default />
-        </Router>
-      ) : (
-        <div>hhaha</div>
-      )}
-    </>
+    <Switch>
+      <Route path="/">
+        <Index />
+      </Route>
+      <Redirect from="/index" to="/login" />
+      <Route path="/my">
+        <My></My>
+      </Route>
+      <Route>
+        <Page404></Page404>
+      </Route>
+    </Switch>
   );
 };
-
-export default RequireLogin;
+export default withRouter(RequireLogin);

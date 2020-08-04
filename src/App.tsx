@@ -1,19 +1,25 @@
 import React from "react";
-import { Router } from "@reach/router";
-
+import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Login from "./pages/Login";
 import LinkSet from "./pages/LinkSet";
-import Page404 from "./pages/common/Page404";
 import RequireLogin from "./pages/RequireLogin/RequireLogin";
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Login path="/login"></Login>
-      <LinkSet path="/linkSet"></LinkSet>
-      <RequireLogin path="/*"></RequireLogin>
-      <Page404 default />
-    </Router>
+    <HashRouter>
+      <Switch>
+        <Route exact path="/">
+          <RequireLogin />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/linkSet">
+          <LinkSet />
+        </Route>
+        <Redirect from="/:any" to="/"></Redirect>
+      </Switch>
+    </HashRouter>
   );
 };
 

@@ -1,11 +1,13 @@
 import React, { useRef } from "react";
-import { RouteComponentProps, navigate } from "@reach/router";
+import { RouteComponentProps } from "react-router-dom";
+import { withRouter } from "react-router";
+
 import Header from "../components/Header";
 import styles from "./linkSet.module.less";
 import ajax from "../util/ajax";
-import Toast from "../components/global/Toast";
 
-const LinkSet: React.FC<RouteComponentProps> = () => {
+const LinkSet: React.FC<RouteComponentProps> = (props) => {
+  console.log("LinkSet:", props);
   const obj = {
     leftUrl: "/login",
     centerTxt: "链接设置",
@@ -15,15 +17,15 @@ const LinkSet: React.FC<RouteComponentProps> = () => {
   const testNetworkSpeed = async () => {
     if (linkRef.current && linkRef.current.value) {
       await ajax.testGet(linkRef.current.value);
-      Toast("链接畅通！");
+      window.$toast("链接畅通！");
     }
   };
   const okFun = async () => {
     if (linkRef.current && linkRef.current.value) {
       await ajax.testGet(linkRef.current.value);
       localStorage.baseUrl = linkRef.current.value;
-      Toast("保存成功！").then((res) => {
-        navigate("/login");
+      window.$toast("保存成功！", 1000).then((res: string) => {
+        props.history.push("/login");
       });
     }
   };
@@ -55,4 +57,4 @@ const LinkSet: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export default LinkSet;
+export default withRouter(LinkSet);

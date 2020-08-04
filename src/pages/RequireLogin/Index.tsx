@@ -1,8 +1,7 @@
 import React from "react";
-import { RouteComponentProps } from "@reach/router";
 import Header from "../../components/Header";
 
-const Index: React.FC<RouteComponentProps> = () => {
+const Index: React.FC = () => {
   const obj = {
     centerTxt: "首页",
     rightIcon: "icon-sousuo",

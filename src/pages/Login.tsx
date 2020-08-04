@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
-import { Link, navigate, RouteComponentProps } from "@reach/router";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { withRouter } from "react-router";
 import Header from "../components/Header";
 import styles from "./login.module.less";
 import md5 from "js-md5";
 
-const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
+const Login: React.FC<RouteComponentProps> = (props) => {
   console.log("Login:", props);
   const obj = {
     centerTxt: "登录",
@@ -19,7 +20,6 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     ? JSON.parse(localStorage.loginInfo)
     : null;
   if (loginInfo) {
-    console.log("dd");
     groupDefaultVal = loginInfo.hotelCode;
     userNamDefaultVal = loginInfo.userCode;
   }
@@ -35,7 +35,7 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       let res = await window.$ajax.get(data);
       if (res) {
         localStorage.loginInfo = JSON.stringify(res.data);
-        navigate("/index");
+        props.history.push("/");
       }
     }
   };
@@ -82,4 +82,4 @@ const Login: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
