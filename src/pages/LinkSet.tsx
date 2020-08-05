@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router";
 
-import Header from "../components/Header";
+import Header from "../components/common/Header";
 import styles from "./linkSet.module.less";
 import ajax from "../util/ajax";
 

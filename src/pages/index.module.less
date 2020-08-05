@@ -1,0 +1,66 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  .main {
+    width: 100%;
+    height: calc(~"100% - 46px");
+    box-sizing: border-box;
+    background-image: linear-gradient(-90deg, #90aeff 2%, #9075ff 98%);
+    .list {
+      width: 100%;
+      height: calc(~"100% - 70px");
+      background: #fff;
+      border-top-right-radius: 20px;
+      border-top-left-radius: 20px;
+      padding-top: 36px;
+      box-sizing: border-box;
+      display: flex;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      .item {
+        width: 33.33%;
+        margin-bottom: 20px;
+        text-align: center;
+        .iconCon {
+          width: 68px;
+          height: 65px;
+          line-height: 65px;
+          border-radius: 5.2px;
+          margin: 0 auto 20px auto;
+
+          .icon {
+            color: #fff;
+            font-size: 32px;
+          }
+        }
+        .cashRegister {
+          background: #ffd251;
+          box-shadow: 0 5px 10px 0 #ffd251;
+        }
+        .chooseDishes {
+          background: #ff8542;
+          box-shadow: 0 5px 10px 0 #ff8542;
+        }
+        .returnDishes {
+          background: #1adfb7;
+          box-shadow: 0 5px 10px 0 #1adfb7;
+        }
+        .checkOrder {
+          background: #8880fe;
+          box-shadow: 0 4px 8px 0 #8880fe;
+        }
+        .handover {
+          background: #ff6b6a;
+          box-shadow: 0 4px 8px 0 #ff6b6a;
+        }
+        .set {
+          background: #ff9900;
+          box-shadow: 0 4px 8px 0 #ff9900;
+          .icon {
+            font-size: 34px;
+          }
+        }
+      }
+    }
+  }
+}

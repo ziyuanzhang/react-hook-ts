@@ -3,8 +3,9 @@ import { HashRouter, Switch, Route, Redirect } from "react-router-dom";
 import Login from "./pages/Login";
 import LinkSet from "./pages/LinkSet";
 import Index from "./pages/Index";
-import My from "./pages/common/My";
-import Page404 from "./pages/common/Page404";
+import Data from "./pages/Data";
+import My from "./pages/My";
+import Page404 from "./pages/Page404";
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,9 @@ const App: React.FC = () => {
         </Route>
         <Route path="/linkSet">
           <LinkSet />
+        </Route>
+        <Route path="/data">
+          <Data />
         </Route>
         <Route path="/my">
           <My />

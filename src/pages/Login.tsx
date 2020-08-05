@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router";
-import Header from "../components/Header";
+import Header from "../components/common/Header";
 import styles from "./login.module.less";
 import md5 from "js-md5";
 
