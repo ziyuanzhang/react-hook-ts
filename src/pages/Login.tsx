@@ -34,8 +34,7 @@ const Login: React.FC<RouteComponentProps> = (props) => {
       };
       let res = await window.$ajax.get(data);
       if (res) {
-        localStorage.loginInfo = JSON.stringify(res.data);
-        props.history.push("/");
+        props.history.push({ pathname: "/", state: { from: "login" } });
       }
     }
   };

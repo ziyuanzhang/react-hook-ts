@@ -5,7 +5,7 @@ import { withRouter } from "react-router";
 import styles from "./footer.module.less";
 
 const Footer: React.FC<RouteComponentProps> = (props) => {
-  console.log("Footer:", props);
+  //console.log("Footer:", props);
   let list = [
     {
       text: "收银",

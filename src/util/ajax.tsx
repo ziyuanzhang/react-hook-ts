@@ -14,7 +14,7 @@ let obj2String = (obj: object, arr: Array<any> = [], idx: number = 0) => {
 };
 
 let commonFetcdh = (url: string, options: object, method: string = "GET") => {
-  console.log("ajax-url:", url);
+  //  console.log("ajax-url:", url);
 
   let opt = {
     ...{
@@ -27,21 +27,38 @@ let commonFetcdh = (url: string, options: object, method: string = "GET") => {
 
   const searchStr = obj2String(opt);
   let initObj = {};
+
+  let headers = {};
+  if (localStorage.loginInfo) {
+    let loginInfo = JSON.parse(localStorage.loginInfo);
+    headers = {
+      "content-type": "application/json;charset=UTF-8",
+      "rop-appCode": "W_RETAIL",
+      "rop-workstation": loginInfo.workStationCode,
+      "rop-hotelCode": loginInfo.hotelCode,
+      "rop-hotelGroupCode": loginInfo.hotelGroupCode,
+      "rop-userCode": loginInfo.userCode,
+      "rop-bizDate": loginInfo.bizDate,
+      "rop-shift": sessionStorage.shiftObj
+        ? JSON.parse(sessionStorage.shiftObj).code
+        : 0,
+    };
+  } else {
+    headers = { "content-type": "application/json,charset=UTF-8" };
+  }
   if (method === "GET") {
     // 如果是GET请求，拼接url
     url += "?" + searchStr;
     initObj = {
       method: method,
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: headers,
     };
   } else {
     initObj = {
       method: method,
       credentials: "include",
       headers: {
-        "content-type": "application/json",
+        "content-type": "application/json;charset=UTF-8",
       },
       body: searchStr,
     };
