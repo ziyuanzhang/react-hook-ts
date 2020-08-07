@@ -50,8 +50,8 @@ const Index: React.FC<RouteComponentProps> = (props) => {
       name: "set",
     },
   ];
-  const handleSwitch = () => {
-    console.log("val");
+  const handleSwitch = (val: string) => {
+    console.log("handleSwitch:", val);
   };
   return (
     <div className={styles.container}>
