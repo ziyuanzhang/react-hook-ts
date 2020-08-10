@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { withRouter } from "react-router";
 
@@ -17,10 +17,20 @@ interface PcCodeItem {
 }
 
 const Index: React.FC<RouteComponentProps> = (props) => {
-  // console.log("index-props:", props.location);
+  console.log("index-props:", props.location);
   const obj = {
     centerTxt: "首页",
   };
+  let pcCodeRef = useRef<PcCodeItem>(
+    localStorage.restaurantObj
+      ? JSON.parse(localStorage.restaurantObj)
+      : {
+          code: "",
+          descript: "",
+          descriptEn: "",
+          notice: "",
+        }
+  );
   const list = [
     {
       icon: "icon-shoukuan3",
@@ -62,7 +72,19 @@ const Index: React.FC<RouteComponentProps> = (props) => {
 
   const handleSwitch = (val: string) => {
     console.log("handleSwitch:", val);
+    if (val === "restaurant") {
+      getPcCodes("click");
+    }
   };
+  const handleSwitchEnd = () => {
+    pcCodeRef.current = JSON.parse(localStorage.restaurantObj);
+    setRestaurantClassUse({
+      isShow: false,
+      whichShow: "",
+      restaurantList: [],
+    });
+  };
+
   const [RestaurantClassUse, setRestaurantClassUse] = useState({
     isShow: false,
     whichShow: "",
@@ -115,7 +137,9 @@ const Index: React.FC<RouteComponentProps> = (props) => {
     <div className={styles.container}>
       <Header {...obj}></Header>
       <div className={styles.main}>
-        <MainNavCom handleSwitch={handleSwitch}></MainNavCom>
+        <MainNavCom
+          pcCode={pcCodeRef.current}
+          handleSwitch={handleSwitch}></MainNavCom>
         <div className={styles.list}>
           {list.map((item, index) => {
             return (
@@ -134,7 +158,9 @@ const Index: React.FC<RouteComponentProps> = (props) => {
       </div>
       <Footer></Footer>
       {RestaurantClassUse.isShow && (
-        <RestaurantClass {...RestaurantClassUse}></RestaurantClass>
+        <RestaurantClass
+          {...RestaurantClassUse}
+          handleSwitchEnd={handleSwitchEnd}></RestaurantClass>
       )}
     </div>
   );
