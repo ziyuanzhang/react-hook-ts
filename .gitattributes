@@ -1,11 +1,11 @@
-*.tsx linguist-language=react
+*.tsx linguist-language=React
 
-*.ts linguist-language=react
+*.ts linguist-language=React
 
-*.js linguist-language=react
+*.js linguist-language=React
 
-*.less linguist-language=react
+*.less linguist-language=React
 
-*.css linguist-language=react
+*.css linguist-language=React
 
-*.html linguist-language=react
+*.html linguist-language=React
